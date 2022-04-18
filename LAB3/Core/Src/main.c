@@ -54,6 +54,7 @@ float DegAbs =0;
 float RadRel =0;
 float RadAbs =0;
 float unwrap=0;
+float unwraprad = 0;
 float Po ;
 float Polast;
 float Pnlast;
@@ -399,6 +400,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 	if (htim == &htim3){
 			unwrap = unwapping(DegRel);
+			unwraprad = unwrap*M_PI/180.0;
 		}
 }
 uint64_t micros()
