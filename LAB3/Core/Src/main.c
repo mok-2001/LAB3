@@ -615,31 +615,31 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// Kalman Calcultation
 			Z_f32[0] = unwraprad;
 			//Xp
-			arm_mat_mult_f32(&A,&X,&AX);
-			arm_mat_mult_f32(&B,&U,&BU);
-			arm_mat_add_f32(&AX,&BU,&Xp);
+			arm_mat_mult_f32(&A,&X,&AX);  		//A * X = AX
+			arm_mat_mult_f32(&B,&U,&BU);  		//B * U = BU
+			arm_mat_add_f32(&AX,&BU,&Xp); 		//AX * BU = Xp
 			//Pp
-			arm_mat_mult_f32(&A,&P,&AP);
-			arm_mat_mult_f32(&AP,&AT,&APAt);
-			arm_mat_add_f32(&APAt,&GQGt,&Pp);
+			arm_mat_mult_f32(&A,&P,&AP);      	//A * P = AP
+			arm_mat_mult_f32(&AP,&AT,&APAt);  	//AP * AT = APAt
+			arm_mat_add_f32(&APAt,&GQGt,&Pp); 	//APAt * GQGt = Pp
 			//Y
-			arm_mat_mult_f32(&C,&Xp,&CXp);
-			arm_mat_sub_f32(&Z,&CXp,&Y);
+			arm_mat_mult_f32(&C,&Xp,&CXp);		//C * Xp = CXp
+			arm_mat_sub_f32(&Z,&CXp,&Y);		//Z * CXp = Y
 			//S
-			arm_mat_mult_f32(&C,&Pp,&CPp);
-			arm_mat_mult_f32(&CPp,&CT,&CPpCt);
-			arm_mat_add_f32(&CPpCt,&R,&S);
+			arm_mat_mult_f32(&C,&Pp,&CPp);		//C * Pp = CPp
+			arm_mat_mult_f32(&CPp,&CT,&CPpCt);	//CPp * CT = CPpCt
+			arm_mat_add_f32(&CPpCt,&R,&S);		//CPpCt * R = S
 			//K
-			arm_mat_mult_f32(&Pp,&CT,&PpCt);
-			arm_mat_inverse_f32(&S,&S_inv);
-			arm_mat_mult_f32(&PpCt,&S_inv,&K);
+			arm_mat_mult_f32(&Pp,&CT,&PpCt);	//Pp * CT = PpCt
+			arm_mat_inverse_f32(&S,&S_inv);		//S = S_invert
+			arm_mat_mult_f32(&PpCt,&S_inv,&K);	//PpCt * S_Invert = K
 			//X
-			arm_mat_mult_f32(&K,&Y,&KY);
-			arm_mat_add_f32(&KY,&Xp,&X);
+			arm_mat_mult_f32(&K,&Y,&KY);		//K * Y = KY
+			arm_mat_add_f32(&KY,&Xp,&X);		//KY * Xp = X
 			//P
-			arm_mat_mult_f32(&K,&C,&KC);
-			arm_mat_sub_f32(&I,&KC,&I_KC);
-			arm_mat_mult_f32(&I_KC,&Pp,&P);
+			arm_mat_mult_f32(&K,&C,&KC);		//K * C = KC
+			arm_mat_sub_f32(&I,&KC,&I_KC);		//I - KC = I-KC
+			arm_mat_mult_f32(&I_KC,&Pp,&P);		//I-KC * Pp = P
 
 			Rad_predict = X_f32[0];
 			Omega_predict = X_f32[1];
