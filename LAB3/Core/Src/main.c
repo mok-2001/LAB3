@@ -108,7 +108,7 @@ float32_t G_f32[3] =
 float32_t Q_f32[1] =
 {
   /* Const,   numTaps,   blockSize,   numTaps*blockSize */
-  0.00828
+  0.01
 };
 //mesurement
 float32_t C_f32[3] =
@@ -124,7 +124,7 @@ float32_t C_f32[3] =
 float32_t R_f32[1] =
 {
   /* Const,   numTaps,   blockSize,   numTaps*blockSize */
-  0.01
+  0.5
 };
 float32_t Z_f32[1] =//input unwrap
 {
